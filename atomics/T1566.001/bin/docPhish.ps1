@@ -114,7 +114,7 @@ function Invoke-DocPhish {
 	    Write-Host -ForegroundColor Yellow "  [+] Selected: Doc Creation Only"
 		}
 	else {
-	    Write-Host -ForegroundColor Red "  [-] No Creation Type Selected, Add -Generate "Msg" or -Generate "Doc" to your Command Args"
+	    Write-Host -ForegroundColor Red "  [-] No Creation Type Selected or Unsupported Type Entered, Add -Generate Msg or -Generate Doc to your Command Args"
 		Break
 		}
 		
