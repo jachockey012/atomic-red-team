@@ -123,7 +123,7 @@ function Invoke-DocPhish {
 		$TmpDocName = $DocName + ".doc"
 		$DocFullPath = Join-Path -Path $DocPath -ChildPath $TmpDocName
 		$TmpMsgName = $MsgName + ".msg"
-        $MsgFullPath = Join-path -Path $MsgPath -ChildPath $TmpMsgName
+                $MsgFullPath = Join-path -Path $MsgPath -ChildPath $TmpMsgName
 		$TmpExecutableName = $ExeName + ".exe"
 		$ExecutableFullPath = Join-Path -Path $ExePath -ChildPath $TmpExecutableName 
 		
@@ -159,7 +159,8 @@ function Invoke-DocPhish {
 		Write-Verbose "  [ ] Email Path and Name = $MsgFullPath"
 		Write-Verbose "  [ ] Executable Path and Name = $ExecutableFullPath"
 		Write-Verbose "  [ ] Macro Code = $macrocode"
-		Try {
+		
+                Try {
 			Write-Verbose "Generating Macro Document at $DocFullPath"
 			$Word = New-Object -ComObject "Word.Application"
 			$WordVersion = $Word.Version
@@ -177,6 +178,7 @@ $Command")
 			$Word.Quit() | Out-Null
 			Write-Verbose "Created Document at $DocFullPath"
 		}
+
 		Catch {
 		    Write-Host -ForegroundColor Red "  [-] Failed to Create Document at $DocFullPath"
 		}
@@ -186,10 +188,12 @@ $Command")
 			Write-Host -ForegroundColor Yello "  [-] You may receive a popup asking for permission to contacts, click allow"
 			Write-Verbose "Creating Outlook Message"
 			$OutlookCheck = Get-Process -Name "Outlook" -ErrorAction SilentlyContinue
+
 			if ($OutlookCheck) {
 				Write-Host -ForegroundColor Yellow "  [-] Outlook is already open, closing to continue"
 				Stop-Process -Name "OUTLOOK" -Force -ErrorAction Ignore
 				}
+
 			Try {
 				$Outlook = New-Object -ComObject Outlook.Application
 				$Message = $Outlook.CreateItem(0)
@@ -201,22 +205,27 @@ $Command")
 				$Message.Close(1)
 				$Outlook.Quit()
 			}
+
 			Catch {
 			Write-Host -ForegroundColor Red "  [-] Failed to Create Email Message with Outlook"
 			}
-		# Cleanup
-		Write-Verbose "Force stopping Outlook and cleaning up document"
-		Stop-Process -Name "Outlook" -Force -ErrorAction Ignore
-		Remove-Item "$DocFullPath" -Force -ErrorAction Ignore
+
+		        # Cleanup
+		        Write-Verbose "Force stopping Outlook and cleaning up document"
+		        Stop-Process -Name "Outlook" -Force -ErrorAction Ignore
+		        Remove-Item "$DocFullPath" -Force -ErrorAction Ignore
 		
-		# Output finished information
-		Write-Host -ForegroundColor Green "  [+] Email Located: $MsgFullPath"
+		        # Output finished information
+		        Write-Host -ForegroundColor Green "  [+] Email Located: $MsgFullPath"
 		}
+
 		else {
-		    Write-Host -ForegroundColor Green "  [+] Document Located: $DocFullPath"
+		    # Output finished information
+                    Write-Host -ForegroundColor Green "  [+] Document Located: $DocFullPath"
 		}
     }
-	Catch {
-	    Write-Host -ForegroundColor Red "[-] Failed to generate email or document"
-	}
+
+    Catch {
+        Write-Host -ForegroundColor Red "[-] Failed to generate email or document"
+    }
 }
