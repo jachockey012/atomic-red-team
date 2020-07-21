@@ -51,31 +51,30 @@ atomic_tests:
             Stop-Process -Name "#{spawnto_process_name}" -ErrorAction Ignore
         name: powershell
 
--   -   -   name: Spawn explorer.exe as parent of notepad.exe
-            auto_generated_guid:
-            description: "Spawns cmd.exe and executes explorer.exe to open notepad\
-                \ as the child to explorer.exe\n\nUpon successful execution, notepad.exe\
-                \ should be spawned\n"
-            supported_platforms:
-            -   windows
-            input_arguments:
-                child_process_name:
-                    description: Name of the process to kill during cleanup
-                    type: string
-                    default: notepad
-                child_process:
-                    description: Name of the process to spawn
-                    type: string
-                    default: C:\Windows\notepad.exe
-                cmd_command:
-                    description: cmd.exe command to execute (escape double quotes
-                        with "`"
-                    type: string
-                    default: /c `"explorer.exe /root,
-            executor:
-                name: powershell
-                elevation_required: false
-                command: "$run_command=\"#{cmd_command} `\"#{child_process}`\"`\"\"\
-                    \nStart-Process cmd.exe -ArgumentList \"$run_command\"\n"
-                cleanup_command: Stop-Process -Name "#{child_process_name}" -ErrorAction
-                    Ignore
+-   name: Spawn explorer.exe as parent of notepad.exe
+    auto_generated_guid:
+    description: |
+        Spawns cmd.exe and executes explorer.exe to open notepad as the 
+        child to explorer.exe. Upon successful execution, notepad.exe should be spawned
+    supported_platforms:
+    -   windows
+    input_arguments:
+        child_process_name:
+            description: Name of the process to kill during cleanup
+            type: string
+            default: notepad
+        child_process:
+            description: Name of the process to spawn
+            type: string
+            default: C:\Windows\notepad.exe
+        cmd_command:
+            description: cmd.exe command to execute (escape double quotes with "`"
+            type: string
+            default: /c `"explorer.exe /root,
+    executor:
+        command: |
+            $run_command="#{cmd_command} `"#{child_process}`"`""
+            Start-Process cmd.exe -ArgumentList "$run_command"
+        cleanup_command: Stop-Process -Name "#{child_process_name}" -ErrorAction Ignore
+        name: powershell
+        elevation_required: false
