@@ -85,7 +85,7 @@ function Invoke-DocPhish {
 		[string]$Generate = "Msg",
 
 	    [Parameter(Mandatory = $False)]
-		[string]$Execute = False,
+		[string]$Execute = "False",
 
 	    [Parameter(Mandatory = $False)]
 		[string]$DocName = "HarperCollins",
@@ -223,7 +223,7 @@ $Command")
 				$Outlook.Quit()
 			}
 
-			if ($Execute -eq True)
+			if ($Execute -eq "True")
 				Write-Host -ForegroundColor Green "  [+] Opening Email and Document"
 		        $NewOutlookCheck = Get-Process -Name "OUTLOOK" -ErrorAction SilentlyContinue
 			    if ($NewOutlookCheck) {
@@ -266,7 +266,7 @@ $Command")
 		else {
 		    # Output finished information
 		    Write-Host -ForegroundColor Green "  [+] Document Located: $DocFullPath"
-		    if ($Execute -eq True)
+		    if ($Execute -eq "True")
 			    $NewWord = New-Object -ComObject Word.Application
 			    Write-Host -ForegroundColor Green "  [+] Opening Word Doc and Executing Macro"
 			    $NewWord.Documents.Open("$DocFullPath") | Out-Null
