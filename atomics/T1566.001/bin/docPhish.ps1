@@ -38,6 +38,10 @@ function Invoke-DocPhish {
 
 	    Specify the subject of the email
 
+	.PARAMETER MsgFrom
+
+	    Specify the email address of the sender to show in To
+
 	.PARAMETER MsgTo
 
 	    Specify the email address of the recipient to show in To
@@ -87,6 +91,9 @@ function Invoke-DocPhish {
 
 		[Parameter(Mandatory = $False)]
 		[string]$MsgPath = $( if ($IsLinux -or $IsMacOS) { $Env:HOME } else { $env:temp }),
+
+		[Parameter(Mandatory = $False)]
+		[string]$MsgFrom = "dschrute@dundermifflin.com",
 
 		[Parameter(Mandatory = $False)]
 		[string]$MsgTo = "dschofield@harpercollins.com",
@@ -200,6 +207,7 @@ $Command")
 				$Outlook = New-Object -ComObject Outlook.Application
 				$Message = $Outlook.CreateItem(0)
 				$Message.To = "$MsgTo"
+				$Message.Sender = "$MsgFrom"
 				$Message.Subject = "$MsgSubject"
 				$Message.Body = "$MsgBody"
 				$Message.Attachments.Add("$DocFullPath") | Out-Null
