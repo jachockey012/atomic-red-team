@@ -155,8 +155,6 @@ atomic_tests:
     executor:
         command: |
             $PathToImage = Join-Path -Path #{cyborg_atomics_folder} -ChildPath #{doc_image_location}
-            Write-Host $PathToImage
-            Write-Host #{executable_name}
             $InputVars = @{ "doc_name" = "#{doc_name}"; "doc_savepath" = "#{doc_savepath}"; "email_filename" = "#{email_filename}"; "email_savepath" = "#{email_savepath}"; "email_recipient" = "#{email_recipient}"; "email_subject" = "#{email_subject}"; "email_body" = "#{email_body}"; "executable_name" = "#{executable_name}"; "executable_location" = "#{executable_location}"; "download_url" = "#{download_url}"; "doc_image_location" = "$PathToImage" }
             Invoke-AtomicTest T1566.001 -TestName "Chained Custom - Email > Maldoc > Powershell Encoded Command > Executable Download > Run Executable" -InputArgs $InputVars -PathToAtomics #{cyborg_atomics_folder} 
         cleanup_command: |
