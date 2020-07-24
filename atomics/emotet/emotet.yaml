@@ -29,7 +29,7 @@ atomic_tests:
         cyborg_atomics_folder:
             description: Folder containing the Red Canary default Atomics (With sub-techniques)
             type: String
-            default: C:\AtomicRedTeam\Cyborg2\atomics\
+            default: C:\AtomicRedTeam\Cyborg\atomics\
     dependency_executor_name: powershell
     dependencies:
     -   description: |
@@ -142,7 +142,7 @@ atomic_tests:
         cyborg_atomics_folder:
             description: Folder containing the Red Canary default Atomics (With sub-techniques)
             type: String
-            default: C:\AtomicRedTeam\Cyborg2\atomics\
+            default: C:\AtomicRedTeam\Cyborg\atomics\
     dependency_executor_name: powershell
     dependencies:
     -   description: |
