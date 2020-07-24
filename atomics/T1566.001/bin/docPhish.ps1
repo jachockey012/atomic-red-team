@@ -93,7 +93,7 @@ function Invoke-DocPhish {
 		[string]$Execute = "False",
 
 	    [Parameter(Mandatory = $False)]
-		[string]$DocImage = None,
+		[string]$DocImage = "",
 
 	    [Parameter(Mandatory = $False)]
 		[string]$DocName = "HarperCollins",
