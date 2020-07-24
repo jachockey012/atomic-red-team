@@ -30,6 +30,10 @@ function Invoke-DocPhish {
 
 		Specifies the path in which the document will be saved. Only changed if a specific location is desired to appear in logging. The document is removed upon the script completion
 
+	.PARAMETER DocImage
+
+		Specifies the path for an image file to insert into the document instead of the default Atomic Test statement
+
 	.PARAMETER MsgName
 
 	    Specify the name of the email message. OMIT EXTENSION
@@ -87,6 +91,9 @@ function Invoke-DocPhish {
 
 	    [Parameter(Mandatory = $False)]
 		[string]$Execute = "False",
+
+	    [Parameter(Mandatory = $False)]
+		[string]$DocImage = None,
 
 	    [Parameter(Mandatory = $False)]
 		[string]$DocName = "HarperCollins",
@@ -183,10 +190,25 @@ function Invoke-DocPhish {
 			$Word = New-Object -ComObject "Word.Application"
 			$doc = $Word.Documents.Add()
 			$Selection = $Word.Selection
-			$Selection.TypeText("If Enable Content or Enable Editing shows in a bar across the top fo the document, click to continue the Atomic Test.
+			if ($DocImage) {
+                If ( -Not (Test-Path -Path $DocImage )) {
+		            Write-Host -ForegroundColor Red "  [-] Image Path Does Not Exist, adding default verbiage in document"
+		            $Selection.TypeText("If Enable Content or Enable Editing shows in a bar across the top fo the document, click to continue the Atomic Test.
 
 For awareness, the following command will be executed by this document:
 $Command")
+			    }
+			    else {
+			        $Selection.InlineShapes.AddPicture("$DocImage") | Out-Null
+			        $Selection.InsertNewPage()
+			    }
+			}
+			else {
+			    $Selection.TypeText("If Enable Content or Enable Editing shows in a bar across the top fo the document, click to continue the Atomic Test.
+
+For awareness, the following command will be executed by this document:
+$Command")
+            }
 			$Word.ActiveDocument.VBProject.VBComponents.Add(1) | Out-Null
 			$Word.VBE.ActiveVBProject.VBComponents.Item("Module1").CodeModule.AddFromString($macrocode) | Out-Null
 			Add-Type -AssemblyName Microsoft.Office.Interop.Word | Out-Null
