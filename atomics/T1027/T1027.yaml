@@ -28,7 +28,7 @@ atomic_tests:
             $Bytes = [System.Text.Encoding]::Unicode.GetBytes($OriginalCommand)
             $EncodedCommand =[Convert]::ToBase64String($Bytes)
             $EncodedCommand
-            powershell.exe -EncodedCommand $EncodedCommand
+            powershell.exe -en $EncodedCommand
         name: powershell
 -   name: Execution from Compressed File
     auto_generated_guid: f8c8a909-5f29-49ac-9244-413936ce6d1f
