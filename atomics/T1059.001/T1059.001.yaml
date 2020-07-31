@@ -70,7 +70,7 @@ atomic_tests:
 -   name: Execute Obfuscated Powershell Command
     auto_generated_guid:
     description: |
-        Starts the process powershell.exe with obfuscated arguments, which utilizing escapes (`), empty quotes (""), and string slicing (',' and '+') to evade detection. Upon successful execution, PowerShell will download a .js script from Cyborg's Github and execute it, which will launch calc.exe.
+        Starts the process powershell.exe with obfuscated arguments, which utilizes  escapes (`), empty quotes (""), and string slicing (',' and '+') to evade detection. Upon successful execution, PowerShell will download a .js script from Cyborg's Github and execute it, which will launch calc.exe.
     supported_platforms:
     -   windows
     input_arguments:
