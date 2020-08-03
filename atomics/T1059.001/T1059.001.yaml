@@ -86,6 +86,7 @@ atomic_tests:
         cleanup_command: |
             echo   [+]  Removed calc.js from %APPDATA%
             del %APPDATA%\calc.js 2>null
+            taskkill /IM Calculator.exe /F
         name: command_prompt
 -   name: Powershell invoke mshta.exe download
     auto_generated_guid: 8a2ad40b-12c7-4b25-8521-2737b0a415af
