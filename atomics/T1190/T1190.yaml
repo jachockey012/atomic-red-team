@@ -5,7 +5,7 @@ atomic_tests:
     description: |
         Attempts to check for CVE-2020-5902, a vulnerability in F5 BigIP devices allowing Local File Inclusion and Remove Code Execution conditions. Executes Powershell.exe with instructions to perform a Local File Inclusion (LFI) attack against a vulnerable Big-IP server to read the servers configuration file. 
 
-        Upon successful exploitation, the servers configuration file should be returned.
+        Upon successful exploitation, the servers configuration file should be returned. Endpoint must be available on port 443.
     supported_platforms:
     -   windows
     -   linux
@@ -31,6 +31,6 @@ atomic_tests:
     executor:
         command: |
             Write-Host "Configured to connect to BIG-IP server: #{target_server}:#{target_server_port}"
-            Invoke-WebRequest -Uri "https://#{target_server}:#{target_server_port}/#{vulnerable_uri} -UserAgent "#{user_agent}
+            Invoke-WebRequest -Uri 'https://#{target_server}:#{target_server_port}/#{vulnerable_uri}' -UserAgent '#{user_agent}'
         elevation_required: false
         name: powershell
