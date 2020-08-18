@@ -4,7 +4,7 @@ atomic_tests:
 -   name: Generic Web Directory Traversal Attempt
     description: |
         Uses PowerShell to initiate a Directory Traversal (Path Traversal) attempt against a vulnerable server.
-        Upon successful exploitation, the server's /etc/shadow file should be returned. To be successful, this attack must be performed against a vulnerable server (using improper URI validation or sanitization), otherwise it will fail.
+        Upon successful exploitation, the server's /etc/shadow file should be returned. To be successful, this attack must be performed against a vulnerable server (one using improper URI validation or sanitization), otherwise it will fail.
     supported_platforms:
     -   windows
     -   linux
