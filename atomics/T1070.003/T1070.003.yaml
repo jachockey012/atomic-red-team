@@ -14,6 +14,6 @@ atomic_tests:
     executor:
         command: |
             Write-Host "Deleting PowerShell Command History...."
-            '#{powershell_cmd}'
+            #{powershell_cmd}
         elevation_required: false
         name: powershell
