@@ -1,0 +1,19 @@
+attack_technique: T1070.003
+display_name: 'Indicator Removal on Host: Clear Command History'
+atomic_tests:
+-   name: Delete PowerShell Command History
+    description: |
+        Uses PowerShell to delete PowerShell's command history.
+    supported_platforms:
+    -   windows
+    input_arguments:
+        powershell_cmd:
+            default: Remove-Item (Get-PSReadlineOption).HistorySavePath
+            description: Command to delete PowerShell's command history.
+            type: string
+    executor:
+        command: |
+            Write-Host "Deleting PowerShell Command History...."
+            '#{powershell_cmd}'
+        elevation_required: false
+        name: powershell
