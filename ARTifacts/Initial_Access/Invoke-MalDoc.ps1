@@ -3,12 +3,14 @@
 # Maldoc Handler
 # This function uses COM objects to emulate the creation and execution of malicious office documents
 
-function Invoke-MalDoc($macro_code, $office_version, $office_product) {
+function Invoke-MalDoc($macro_choice, $office_version, $office_product) {
     
-    if($macro_choice -eq "1"){
-    $macro_code = "  a = Shell(`"cmd.exe calc.exe`", vbNormalFocus)"} 
-    elseif($macro_choice -eq "2"){
-    $macro_code = "  a = Shell(`"powershell.exe calc.exe`", vbNormalFocus)"} 
+    if ($macro_choice -eq "1"){
+        $macro_code = "  a = Shell(`"cmd.exe calc.exe`", vbNormalFocus)"
+    } 
+    elseif ($macro_choice -eq "2"){
+        $macro_code = "  a = Shell(`"powershell.exe calc.exe`", vbNormalFocus)"
+    } 
 
     
     if ($office_product -eq "Word") {
