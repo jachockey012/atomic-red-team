@@ -1,4 +1,6 @@
 # This PowerShell script was originally created by RedCanary, and later modified by Cyborg Security. 
+# The original can be found here: https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1
+#
 #--------------------- 
 # Maldoc Handler
 # This function uses COM objects to emulate the creation and execution of malicious office documents
