@@ -9,7 +9,7 @@ function Invoke-MalDoc($macro_choice, $office_version, $office_product) {
     
     #Commands to be supplied in the macro, with their corresponding choice number. 
     if ($macro_choice -eq "1"){
-        $macro_code = "Sub Test()`n Shell `"cmd.exe calc.exe`" `nEnd Sub" 
+        $macro_code = "Sub Test()`n Shell `"cmd calc.exe`" `nEnd Sub" 
     } 
     elseif ($macro_choice -eq "2"){
         $macro_code = "Sub Test()`n Shell `"Powershell.exe calc.exe`" `nEnd Sub"  
