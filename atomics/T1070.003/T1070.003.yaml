@@ -2,6 +2,7 @@ attack_technique: T1070.003
 display_name: 'Indicator Removal on Host: Clear Command History'
 atomic_tests:
 -   name: Delete PowerShell Command History
+    auto_generated_guid:
     description: |
         Uses PowerShell to delete PowerShell's command history.
     supported_platforms:
