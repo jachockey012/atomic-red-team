@@ -6,10 +6,10 @@
 function Invoke-MalDoc($macro_choice, $office_version, $office_product) {
     
     if ($macro_choice -eq "1"){
-        $macro_code = "  a = Shell(`"cmd.exe calc.exe`", vbNormalFocus)"
+        $macro_code = "Sub Test()`n Shell `"cmd.exe calc.exe`" `nEnd Sub"  
     } 
     elseif ($macro_choice -eq "2"){
-        $macro_code = "  a = Shell(`"powershell.exe calc.exe`", vbNormalFocus)"
+        $macro_code = "Sub Test()`n Shell `"Powershell.exe calc.exe`" `nEnd Sub"  
     } 
 
     
