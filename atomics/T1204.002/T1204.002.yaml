@@ -55,7 +55,7 @@ atomic_tests:
 -   name: Office Product Spawning Suspicious LOLB
     auto_generated_guid:
     description: |
-        This Test uses a VBA macro to execute CMD.exe, Powershell.exe, Schtasks.exe, or WMIC.exe. Upon execution, the selected process will be launched and run calc.exe.
+        This test uses a VBA macro to execute CMD.exe, PowerShell.exe, WMIC.exe, or Schtasks.exe. Upon execution, the selected process will be launched and run calc.exe.
         Execution is handled by [Invoke-MalDoc](https://github.com/CyborgSecurity/atomic-red-team/blob/Cyborg/ARTifacts/Initial_Access/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.
     supported_platforms:
     -   windows
