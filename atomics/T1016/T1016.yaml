@@ -133,7 +133,7 @@ atomic_tests:
     executor:
         command: |
             Write-Host "Requesting External IP From: #{target_domain}:#{target_domain_port}"
-            (Invoke-WebRequest -Uri 'https://#{target_server}:#{target_server_port}' -UserAgent '#{user_agent}').Content
+            (Invoke-WebRequest -Uri 'https://#{target_domain}:#{target_domain_port}' -UserAgent '#{user_agent}').Content
         elevation_required: false
         name: powershell
 -   name: System Network Configuration Discovery (TrickBot Style)
